@@ -1,0 +1,181 @@
+<html>
+    <head>
+        <title>CAESAR CIPHER</title>
+        <script type="text/javascript">
+            function encryptFunc()
+            {
+                var pt=cc.plaintext.value;
+                pt=pt.trim();
+                pt=pt.toLowerCase();
+                var key=cc.key.value;
+                var i=0,j=0,k=0,cnt=0,flag1=0;
+                var ptArr=new Array(pt.length);
+                var ct="";
+                if(pt==""||key=="")
+                {
+                    window.alert("Fill the required fields!");
+                }
+                else
+                {
+                    for(k=0;k<pt.length;k++)
+                    {
+                        for(i=65,j=97;i<=90&&j<=122;i++,j++)
+                        {
+                            if(pt.charCodeAt(k)==32||pt.charCodeAt(k)==i||pt.charCodeAt(k)==j)
+                            {
+                                flag1++;
+                                break;
+                            }
+                        }
+                    }
+                    if(flag1==pt.length)
+                    {
+                        key=parseInt(key);
+                        j=0;
+                        cc.ciphertext.value=cc.ciphertext.value+"P\t+K\t"+"mod 26"+"\tC"+"\n"+"********************************";
+                        for(i=0;i<pt.length;i++)
+                        {
+                            if(pt.charAt(i)!=' ')
+                            {
+                                ptArr[j]=parseInt(pt.charCodeAt(i)-97+key);
+                                cc.ciphertext.value=cc.ciphertext.value+"\n"+pt.charAt(i)+": "+"\t"+parseInt(pt.charCodeAt(i)-97)+"\t"+ptArr[j];
+                                if(ptArr[j]>=26)
+                                ptArr[j]=ptArr[j]%26;
+                                cc.ciphertext.value=cc.ciphertext.value+"\t"+ptArr[j];
+                                ct=ct+String.fromCharCode(ptArr[j]+65);
+                                cc.ciphertext.value=cc.ciphertext.value+"\t"+String.fromCharCode(ptArr[j]+65);
+                                j++;
+                            }
+                            else if(pt.charAt(i)==' ')
+                            {
+                                ct=ct+" ";
+                            }
+                        }
+                        cc.ciphertext.value=ct;
+                    }
+                    else
+                    {
+                        window.alert("Not a valid input!");
+                        cc.plaintext.value="";
+                        cc.ciphertext.value="";
+                        cc.key.value="";
+                    }
+                }
+            }
+        function decryptFunc()
+        {
+            var ct=cc.ciphertext.value;
+            ct=ct.trim();
+            ct=ct.toUpperCase();
+            var key=cc.key.value;
+            var i=0,j=0,k=0,cnt=0,flag1=0;
+            var ctArr=new Array(ct.length);
+            var pt="";
+            cc.ciphertext.value="";
+            if(ct==""||key=="")
+            {
+                window.alert("Fill the required fields!");
+            }
+            else
+            {
+                for(k=0;k<ct.length;k++)
+                {
+                    for(i=65,j=97;i<=90&&j<=122;i++,j++)
+                    {
+                        if(ct.charCodeAt(k)==32||ct.charCodeAt(k)==i||ct.charCodeAt(k)==j)
+                        {
+                            flag1++;
+                            break;
+                        }
+                    }
+                }
+                if(flag1==ct.length)
+                {
+                    key=parseInt(key);
+                    j=0;
+                    cc.ciphertext.value=cc.ciphertext.value+"\t"+"C\tC-K\t"+"mod 26"+"\t"+"P"+"\n"+"************************************";
+                    for(i=0;i<ct.length;i++)
+                    {
+                        if(ct.charAt(i)!=' ')
+                        {
+                            ctArr[j]=parseInt(ct.charCodeAt(i)-65-key);
+                            cc.ciphertext.value=cc.ciphertext.value+"\n"+ct.charAt(i)+": "+"\t"+parseInt(ct.charCodeAt(i)-65)+"\t"+ctArr[j];
+                            if(ctArr[j]>=26)
+                            ctArr[j]=ctArr[j]%26;
+                            while(ctArr[j]<0)
+                            ctArr[j]=ctArr[j]+26;
+                            cc.ciphertext.value=cc.ciphertext.value+"\t"+ctArr[j];
+                            pt=pt+String.fromCharCode(ctArr[j]+97);
+                            cc.ciphertext.value=cc.ciphertext.value+"\t"+String.fromCharCode(ctArr[j]+97);
+                            j++;
+                        }
+                        else if(ct.charAt(i)==' ')
+                        {
+                            pt=pt+" ";
+                        }
+                    }
+                    cc.plaintext.value=pt;
+                }
+                else
+                {
+                    window.alert("Not a valid input!");
+                    cc.plaintext.value="";
+                    cc.ciphertext.value="";
+                    cc.key.value="";
+                }
+            }
+        }
+        </script>
+        <style>
+            .func
+            {
+                padding-left: 50px;
+                font-family:  fantasy;
+            }
+        .border
+        {
+            padding: 10px 10px 10px 10px;
+            border: 2px solid black;
+	    height: 200px;
+            background-color: #D7CCC8;
+        }
+        .ccr
+        {
+            font-family: Cursive;
+            color: #bf0041;
+        }
+        .desc
+        {
+            font-family:  fantasy;
+        }
+        .labels
+        {
+            font-family:  fantasy;
+            color: #455A64;
+        }
+        </style>
+    </head>
+    <body class="border">
+        <center>
+            <h1 class="ccr">CAESAR CIPHER</h1>
+        </center>
+        <p class="func">P  Plaintext, C  Ciphertext, K  Key</p>
+        <h4 class="func" style="color:#2a6099"><u>ENCRYPTION FUNCTION:</u></h4>
+        <p class="func"><i><b>C=P+K mod 26</b></i></p>
+        <h4 class="func" style="color:#2a6099"><u>DECRYPTION FUNCTION:</u></h4>
+        <p class="func"><i><b>P=C-K mod 26</b></i></p>
+        <form name="cc">
+        <h3 class="labels">PLAIN TEXT</h3>
+        <input type="text" name="plaintext" rows=10 cols=70></textarea>
+        <h3 class="labels">CIPHER TEXT</h3>
+        <input type="text" name="ciphertext"rows=10 cols=70 >     </textarea>
+
+                      
+	<h3 class="labels">KEY</h3>
+        <input type="number" name="key" ></input>
+	<button type="button" name="encrypt" onclick="encryptFunc()">ENCRYPT</button>&ensp;<button type="button" name="decrypt" onclick="decryptFunc()">DECRYPT</button>
+  
+        </form>
+        
+    </body>
+</html>
